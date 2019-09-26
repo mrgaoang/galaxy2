@@ -26,7 +26,7 @@ public class SentenceSelect {
     private MoneyUnitBuilder moneyUnitBuilder;
 
     /**
-     *积分问题特征
+     * 积分问题特征
      */
     private static String question3CoreWords = "how much is ";
     /**
@@ -117,22 +117,22 @@ public class SentenceSelect {
             double price = 0;
             for (int i = 0; i < words.length; i++) {
                 // 取昵称
-                if (charUnitIndex == 0 && moneyUnitBuilder.getNikeNameBuilder().containsKey(words[i])) {
+                if (moneyUnitBuilder.getNikeNameBuilder().containsKey(words[i])) {
                     continue;
                 }
                 // 取到货币种类 名称
-                else if (charUnitIndex == 0 && !moneyUnitBuilder.getNikeNameBuilder().containsKey(words[i])) {
+                else {
                     charUnitIndex = i;
                     break;
                 }
             }
             // 货币种类后接is
-            if (words[charUnitIndex+1] != accessChar) {
+            if (words[charUnitIndex + 1] != accessChar) {
                 return SentenceType.WRONG;
             }
             // is 后接积分数量
             try {
-                Double.parseDouble(words[charUnitIndex+2]);
+                Double.parseDouble(words[charUnitIndex + 2]);
             } catch (NumberFormatException e) {
                 return SentenceType.WRONG;
             }

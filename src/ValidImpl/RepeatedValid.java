@@ -60,7 +60,6 @@ public class RepeatedValid implements AbstractValid {
     }
 
     public static void main(String[] args) throws Exception {
-        RepeatedValid valid = new RepeatedValid();
         NumberCell numberCell = new NumberCell("IV");
     }
 

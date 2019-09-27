@@ -39,9 +39,22 @@ public class TestProcess {
         List<String> sentenceList = getTestList();
         for (int i = 0; i < sentenceList.size(); i++) {
             String sentence = sentenceList.get(i);
+            System.out.println(sentence);
             MainProcess.inputOneLine(sentence);
         }
 
+    }
+
+    /**
+     * 测试模块
+     */
+    public static void test() {
+        List<String> sentenceList = getTestList();
+        for (int i = 0; i < sentenceList.size(); i++) {
+            String sentence = sentenceList.get(i);
+            System.out.println(sentence);
+            MainProcess.inputOneLine(sentence);
+        }
     }
 
     /**

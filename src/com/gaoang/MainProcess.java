@@ -9,62 +9,50 @@ import sentence.SentenceModel;
 import sentence.SentenceSelect;
 
 public class MainProcess {
-    /**
-     * 昵称构造器
-     */
-    public static NikeNameBuilder nikeNameBuilder = new NikeNameBuilder();
-    /**
-     * 单位货币构造器
-     */
-    public static MoneyUnitBuilder moneyUnitBuilder = new MoneyUnitBuilder(nikeNameBuilder);
+
     /**
      * 语义选择器
      */
-    public static SentenceSelect sentenceSelect = new SentenceSelect(moneyUnitBuilder);
+    public static SentenceSelect sentenceSelect = new SentenceSelect();
 
     /**
-     * Test input:
-     * glob is I
-     * prok is V
-     * pish is X
-     * tegj is L
-     * glob glob Silver is 34 Credits
-     * glob prok Gold is 57800 Credits
-     * pish pish Iron is 3910 Credits
-     * how much is pish tegj glob glob ?
-     * how many Credits is glob prok Silver ?
-     * how many Credits is glob prok Gold ?
-     * how many Credits is glob prok Iron ?
-     * how much wood could a woodchuck chuck if a woodchuck could chuck wood ?
-     * <p>
-     * Test Output:
-     * pish tegj glob glob is 42
-     * glob prok Silver is 68 Credits
-     * glob prok Gold is 57800 Credits
-     * glob prok Iron is 782 Credits
-     * I have no idea what you are talking about
-     *
      * @param args
+     * @author 高昂
+     * @date 2019-9-27
+     * @mobile 18511077193
      */
     public static void main(String[] args) {
-        while (true) {
-            System.out.println("please input :");
-            Scanner sc = new Scanner(System.in);
+        System.out.println("===========galaxy===========");
+        System.out.println("input 'exit' to end program ");
+        System.out.println("input 'reSet' to init program ");
+        System.out.println("input 'help' to print example input ");
+        System.out.println("input 'test' to execute test model ");
+        System.out.println("# if you want copy a lot of sentence , please end with the char '\\n' ! ");
+        System.out.println("please input :");
+        Scanner sc = new Scanner(System.in);
+
+        while (sc.hasNextLine()) {
             String sentence = sc.nextLine();
             if ("exit".equals(sentence)) {
-                System.out.println("exit ");
+                sc.close();
+                System.out.println("exit success !");
                 break;
             }
-            if ("init".equals(sentence)) {
-                nikeNameBuilder.clear();
-                moneyUnitBuilder.clear();
-                System.out.println("init success !");
+            if ("help".equals(sentence)) {
+                help();
                 continue;
             }
-            System.out.println(sentence);
+            if ("test".equals(sentence)) {
+                TestProcess.test();
+                continue;
+            }
+            if ("reSet".equals(sentence)) {
+                sentenceSelect.reSet();
+                continue;
+            }
             inputOneLine(sentence);
-
         }
+
 
         // 打印货币等价的积分
 //        for (String s : moneyUnitBuilder.keySet()) {
@@ -79,29 +67,48 @@ public class MainProcess {
      * @param sentence
      */
     public static void inputOneLine(String sentence) {
+        // 解析文本提取关键词
         SentenceModel model = sentenceSelect.select(sentence);
+        // 根据文本类型交由相关的执行对象
         int type = model.getSentenceType();
         switch (type) {
             // 昵称构造
             case SentenceType.NIKE_NAME:
-                nikeNameBuilder.makeFromSentence(model);
+                sentenceSelect.getNikeNameBuilder().makeFromSentence(model);
                 break;
             // 货币价值构造
             case SentenceType.INIT_CREDIT:
-                String errorMsg = moneyUnitBuilder.setUnitWithSentence(model);
+                String errorMsg = sentenceSelect.getMoneyUnitBuilder().setUnitWithSentence(model);
                 if (errorMsg != null) {
                     System.out.println(errorMsg);
                 }
                 break;
+            // 简单积分问题
             case SentenceType.QUESTION_CREDIT:
                 System.out.println(sentenceSelect.getSimpleCreditQuestionBuilder().answer(model));
                 break;
+            // 货币积分价值问题
             case SentenceType.QUESTION_UNIT_CREDIT:
                 System.out.println(sentenceSelect.getUnitCreditQuestionBuilder().answer(model));
                 break;
             default:
                 System.out.println("I have no idea what you are talking about");
         }
+    }
+
+    public static void help() {
+        System.out.println("glob is I\n" +
+                "prok is V\n" +
+                "pish is X\n" +
+                "tegj is L\n" +
+                "glob glob Silver is 34 Credits\n" +
+                "glob prok Gold is 57800 Credits\n" +
+                "pish pish Iron is 3910 Credits\n" +
+                "how much is pish tegj glob glob ?\n" +
+                "how many Credits is glob prok Silver ?\n" +
+                "how many Credits is glob prok Gold ?\n" +
+                "how many Credits is glob prok Iron ?\n");
+
     }
 
 

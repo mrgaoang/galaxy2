@@ -3,7 +3,6 @@ package sentence;
 import java.util.Objects;
 
 import constant.SentenceType;
-import galaxy.NumberCell;
 
 /**
  * 数据选择器
@@ -25,6 +24,11 @@ public class SentenceSelect {
      */
     private UnitCreditQuestionBuilder unitCreditQuestionBuilder;
 
+    /**
+     * 昵称构造器
+     */
+    private NikeNameBuilder nikeNameBuilder ;
+
     public SimpleCreditQuestionBuilder getSimpleCreditQuestionBuilder() {
         return simpleCreditQuestionBuilder;
     }
@@ -33,10 +37,29 @@ public class SentenceSelect {
         return unitCreditQuestionBuilder;
     }
 
-    public SentenceSelect(MoneyUnitBuilder moneyUnitBuilder) {
-        this.moneyUnitBuilder = moneyUnitBuilder;
+    public MoneyUnitBuilder getMoneyUnitBuilder() {
+        return moneyUnitBuilder;
+    }
+
+    public NikeNameBuilder getNikeNameBuilder() {
+        return nikeNameBuilder;
+    }
+
+    public SentenceSelect() {
+        this.nikeNameBuilder = new NikeNameBuilder();
+        this.moneyUnitBuilder = new MoneyUnitBuilder(nikeNameBuilder);
         this.simpleCreditQuestionBuilder = new SimpleCreditQuestionBuilder(moneyUnitBuilder);
         this.unitCreditQuestionBuilder = new UnitCreditQuestionBuilder(moneyUnitBuilder);
+    }
+
+    /**
+     * 重置昵称和货币
+     */
+    public void reSet() {
+        nikeNameBuilder.clear();
+        moneyUnitBuilder.clear();
+        System.out.println("init success !");
+
     }
 
     /**
@@ -51,7 +74,7 @@ public class SentenceSelect {
             sentenceModel.setSentenceType(SentenceType.ERROR);
             return sentenceModel;
         }
-        // 替换多余的空格，清理首位空格
+        // 替换多余的空格，清理首尾空格
         sentence = sentence.replaceAll("\\s{2,}", " ").trim();
 
         String[] words = sentence.split(" ");

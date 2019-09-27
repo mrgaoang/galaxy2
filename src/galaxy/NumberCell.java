@@ -28,6 +28,10 @@ public class NumberCell {
      * 数值
      */
     private double number;
+    /**
+     * 最大可表示的数
+     */
+    private static Integer maxNumber = 2000;
 
     /**
      * 构造数字对象
@@ -47,6 +51,29 @@ public class NumberCell {
         repeatedValid.valid(this);
         subtractedValid.valid(this);
         calculationCredits();
+    }
+
+    /**
+     * TODO 阿拉伯数字转银河系字符 非必须，抽空做
+     *
+     * @param number
+     * @throws Exception
+     */
+    public NumberCell(int number) throws Exception {
+        if (number >= maxNumber) {
+            throw new Exception(number +" greater than "+ maxNumber);
+        }
+        if (number <= 0) {
+            throw new Exception(number +" less than 0 ");
+        }
+        this.number = new Integer(number).doubleValue();
+        String numberStr = String.valueOf(number);
+        numberStr = String.format("%04d", number);
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(String.format("%04d", 1));
     }
 
     /**

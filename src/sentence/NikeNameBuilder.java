@@ -49,6 +49,6 @@ public class NikeNameBuilder extends HashMap<String, BasicCell> {
      * @return
      */
     public BasicCell getCellByNikeName(String nikeName) {
-        return (BasicCell) this.get(nikeName);
+        return this.get(nikeName);
     }
 }

@@ -107,7 +107,4 @@ public class NumberCell {
                 '}';
     }
 
-    public static void main(String[] args) throws Exception {
-        NumberCell numberCell = new NumberCell("IV");
-    }
 }

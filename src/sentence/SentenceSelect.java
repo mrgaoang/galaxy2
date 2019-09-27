@@ -82,9 +82,4 @@ public class SentenceSelect {
 
     }
 
-    public static void main(String[] args) throws Exception {
-        String sentence = "XLII";
-        NumberCell numberCell = new NumberCell(sentence);
-        System.out.println(numberCell.toString());
-    }
 }

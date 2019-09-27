@@ -4,15 +4,15 @@
  星际交易中使用的数字遵循与罗马数字相似的约定，因此您辛苦地收集了它们之间的适当转换。  
  罗马数字基于七个符号
 ### 每个符号代表对于的数值
-+ 符号     数值
-+ I       1
-+ V       5
-+ X       10
-+ L       50
-+ C       100
-+ D       500
-+ M       1000
-
+|符号|数值|
+|:---|---:|
+|I|1   |
+|V|5   |
+|X|10  |
+|L|50  |
+|C|100 |
+|D|500 |
+|M|1000|
 > 符合组合在一起通过加减运算形成数字 如：MMVI 为 1000 + 1000 + 5 + 1 =2006，正常情况下符号又大到小排列，如果较小的符号在较大的符号前，则用后面较大的符号减去前面较小的符号，如：MCMXLIV = 1000 +（1000 − 100）+（50 − 10）+（5 − 1）= 1944；
 ### 符合组合的规则：
 1. 重复条件 符号“ I”，“ X”，“ C”和“ M”最多可以连续重复三次，（如果第三个和第四个之间用较小的值隔开，例如XXXIX，它们可能会出现四次，这种是允许的。） DLV永远不能重复（因为L没有必要重复，可以直接用C表示;D也没有必要重复，可以用M直接表示，V没有必要重复，可以用X表示）
@@ -52,22 +52,23 @@ I have no idea what you are talking about
 ```
 
 ## 实现思路
-### MainProcess类为程序入口，接受用户输入的文本并交给SentenceSelect对象处理，SentenceSelect对象调用解析器分析语义，将4种输入进行分类，并提取出问题句型中的数值符号，并交给以下四种对象解析器执行
-### 1. NikeNameBuilder 昵称构造器
+### MainProcess类为程序入口，接受用户输入的文本并交给SentenceSelect对象处理，
+### SentenceSelect对象调用解析器分析语义，将4种输入进行分类，并提取出问题句型中的数值符号，并交给以下四种文本构造器执行
+1. NikeNameBuilder 昵称构造器
     1. 通过isNikeNameSentence方法接受一文本，判断是否为昵称定义语句并提取关键词封装为SentenceModel对象
     2. 通过makeFromSentence接受一个SentenceModel对象设置昵称和罗马符号的转换
     
-### 2. MoneyUnitBuilder 货币构造器 
+2. MoneyUnitBuilder 货币构造器 
     1. 通过isMoneyUnitSentence方法接受一文本，判断是否为货币定义语句并提取关键词封装为SentenceModel对象
     2. 通过setUnitWithSentence 接受一个SentenceModel对象，根据文本内容构造NumberCell对象转换为数值，最终计算出货币等于多少积分，然后保存货币积分映射
-### 3. SimpleCreditQuestionBuilder 简单信用分问题构造器，该类继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
+3. SimpleCreditQuestionBuilder 简单信用分问题构造器，该类继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
     1. isMyTypeSentence 判断是否为简单信用分问题，并提取数字关键词，如：`how much is pish tegj glob glob ?` 提取出 `pish tegj glob glob` 并封装为SentenceModel对象
     2. answer 根据SentenceModel对象解析数字对象并回答
-### 4. UnitCreditQuestionBuilder 货币积分价值提问，该类也继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
+4. UnitCreditQuestionBuilder 货币积分价值提问，该类也继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
     1. isMyTypeSentence 货币积分价值提问，并提取数字关键词，如 `how many Credits is glob prok Silver ?` 提取出 数字：`glob prok` 、货币 `Silver` 封装为SentenceModel对象
     2. answer 根据SentenceModel对象创建NumberCell对象，通过MoneyUnitBuilder获取对应货币的积分价值，计算出答案
 
-#### BasicCell 基本符号对象
+### BasicCell 基本符号对象
 > BasicCell是一个是罗马符号对应阿拉伯数字的映射的枚举类，有name、和value两个属性
 并提供getWithString、getWithChar两个查找方法
 ### NumberCell 符号数值对象

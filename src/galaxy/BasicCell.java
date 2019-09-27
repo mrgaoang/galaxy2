@@ -31,6 +31,7 @@ public enum BasicCell {
 
     /**
      * 获取基础符号
+     *
      * @param cell
      * @return
      */
@@ -42,18 +43,20 @@ public enum BasicCell {
         }
         return I;
     }
+
     /**
      * 获取基础符号
+     *
      * @param cell
      * @return
      */
-    public static BasicCell getWithString(String  cell) {
+    public static BasicCell getWithString(String cell) {
         for (BasicCell basicCell : BasicCell.values()) {
             if (basicCell.getName().equals(cell)) {
                 return basicCell;
             }
         }
-        return I;
+        return null;
     }
 
 }

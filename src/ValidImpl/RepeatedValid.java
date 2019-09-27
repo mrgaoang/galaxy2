@@ -36,7 +36,7 @@ public class RepeatedValid implements AbstractValid {
         }
         BasicCell[] cells = input.getCells();
         // 上一个单元
-        BasicCell beforeCell = cells[1];
+        BasicCell beforeCell = cells[0];
         // 重复计数
         int repeatedCount = 1;
 
@@ -61,8 +61,7 @@ public class RepeatedValid implements AbstractValid {
 
     public static void main(String[] args) throws Exception {
         RepeatedValid valid = new RepeatedValid();
-        NumberCell numberCell = new NumberCell("IIII");
-        valid.valid(numberCell);
+        NumberCell numberCell = new NumberCell("IV");
     }
 
 }

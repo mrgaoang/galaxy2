@@ -10,5 +10,10 @@ import galaxy.NumberCell;
  * @since ：2019/9/26 19:27
  */
 public interface AbstractValid {
-    public void valid(NumberCell input) throws Exception;
+    /**
+     * 校验格式
+     * @param input
+     * @throws Exception
+     */
+    void valid(NumberCell input) throws Exception;
 }

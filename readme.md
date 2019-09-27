@@ -53,17 +53,17 @@ I have no idea what you are talking about
 
 ## 实现思路
 ### MainProcess类为程序入口，接受用户输入的文本并交给SentenceSelect对象处理，SentenceSelect对象调用解析器分析语义，将4种输入进行分类，并提取出问题句型中的数值符号，并交给以下四种对象解析器执行
-###1. NikeNameBuilder 昵称构造器
+### 1. NikeNameBuilder 昵称构造器
     1. 通过isNikeNameSentence方法接受一文本，判断是否为昵称定义语句并提取关键词封装为SentenceModel对象
     2. 通过makeFromSentence接受一个SentenceModel对象设置昵称和罗马符号的转换
     
-###2. MoneyUnitBuilder 货币构造器 
+### 2. MoneyUnitBuilder 货币构造器 
     1. 通过isMoneyUnitSentence方法接受一文本，判断是否为货币定义语句并提取关键词封装为SentenceModel对象
     2. 通过setUnitWithSentence 接受一个SentenceModel对象，根据文本内容构造NumberCell对象转换为数值，最终计算出货币等于多少积分，然后保存货币积分映射
-###3. SimpleCreditQuestionBuilder 简单信用分问题构造器，该类继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
+### 3. SimpleCreditQuestionBuilder 简单信用分问题构造器，该类继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
     1. isMyTypeSentence 判断是否为简单信用分问题，并提取数字关键词，如：`how much is pish tegj glob glob ?` 提取出 `pish tegj glob glob` 并封装为SentenceModel对象
     2. answer 根据SentenceModel对象解析数字对象并回答
-###4. UnitCreditQuestionBuilder 货币积分价值提问，该类也继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
+### 4. UnitCreditQuestionBuilder 货币积分价值提问，该类也继承自AbstractQuestion，有两个共有方法：isMyTypeSentence、answer
     1. isMyTypeSentence 货币积分价值提问，并提取数字关键词，如 `how many Credits is glob prok Silver ?` 提取出 数字：`glob prok` 、货币 `Silver` 封装为SentenceModel对象
     2. answer 根据SentenceModel对象创建NumberCell对象，通过MoneyUnitBuilder获取对应货币的积分价值，计算出答案
 

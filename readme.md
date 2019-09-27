@@ -70,11 +70,11 @@ I have no idea what you are talking about
 
 ## 基本对象介绍
 ### BasicCell 基本符号对象
-> BasicCell是一个是罗马符号对应阿拉伯数字的映射的枚举类，有name、和value两个属性
+> BasicCell是一个罗马符号对应阿拉伯数字的映射的枚举类，有name、和value两个属性
 并提供getWithString、getWithChar两个查找方法
 ### NumberCell 符号数值对象
 >NumberCell对象时BasicCell对象的一个顺序集合，用来表示一个完整数值
-通过罗马符号字符串构造，如传入`IV`得到可得到阿拉伯数值
+通过罗马符号字符串构造，如传入`IV`得到可得到阿拉伯数值4 
 构造时调用AbstractValid检查器的所有子类，判断传入的字符是否合法
 ### AbstractValid 数字语法检查器抽象类 提供一个valid方法用于检查合法性，该类有两个子类
 #### 1. RepeatedValid符号重复性检查器，继承自RepeatedValid类。该类负责检查符号是否有不合法的重复，如重复超过三次，或连续禁止重复的符号

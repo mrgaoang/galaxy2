@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: com.gaoang.MainProcess
+Main-Class: process.MainProcess

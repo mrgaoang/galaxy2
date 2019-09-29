@@ -1,15 +1,10 @@
 package util;
 
 /**
- * @author ： gaoang
- * @mudule: 应用模块名称
- * @Copyright: Copyright (C) 2019 BlueSea, Inc. All rights reserved.
- * @Company : 北京巅峰同道科技有限公司
- * @since ：2019/9/27 14:21
+ * 工具类
  */
 public class Utils {
     /**
-     * TODO 需要优化一下
      * double类型转String 类型的小数点后的00
      *
      * @param num double参数
@@ -31,7 +26,7 @@ public class Utils {
                 }
             }
         } else {
-            return strNum ;
+            return strNum;
         }
     }
 

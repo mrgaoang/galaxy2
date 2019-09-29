@@ -1,12 +1,10 @@
-package ValidImpl;
+package validImpl;
 
-import galaxy.BasicCell;
-import galaxy.NumberCell;
+import number.BasicCell;
+import number.NumberCell;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 字符重复性校验类

@@ -1,5 +1,8 @@
 package constant;
 
+/**
+ * 文本类型常量类
+ */
 public class SentenceType {
     /**
      * 异常文本
@@ -10,7 +13,7 @@ public class SentenceType {
      */
     public static final int NIKE_NAME = 1;
     /**
-     * 定义货币的积分价值
+     * 定义货物的积分价值
      */
     public static final int INIT_CREDIT = 2;
     /**
@@ -18,7 +21,7 @@ public class SentenceType {
      */
     public static final int QUESTION_CREDIT = 3;
     /**
-     * 带货币单位的积分提问
+     * 带货物单位的积分提问
      */
     public static final int QUESTION_UNIT_CREDIT = 4;
     /**

@@ -1,7 +1,7 @@
-package ValidImpl;
+package validImpl;
 
-import galaxy.BasicCell;
-import galaxy.NumberCell;
+import number.BasicCell;
+import number.NumberCell;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,8 +20,11 @@ public class SubtractedValid implements AbstractValid {
     /**
      * 减数集合
      */
-    public static Map<BasicCell, List<BasicCell>> subtractMap = new HashMap(4);
+    public static Map<BasicCell, List<BasicCell>> subtractMap = new HashMap(16);
 
+    /**
+     *初始化减数和被减数
+     */
     static {
         subtractMap.put(BasicCell.I, Arrays.asList(BasicCell.V, BasicCell.X));
         subtractMap.put(BasicCell.X, Arrays.asList(BasicCell.L, BasicCell.C));
@@ -31,7 +34,7 @@ public class SubtractedValid implements AbstractValid {
     /**
      * 不能作为减数
      */
-    public static List<BasicCell> notSubtracted = Arrays.asList(BasicCell.D, BasicCell.L, BasicCell.L);
+    public static List<BasicCell> notSubtracted = Arrays.asList(BasicCell.D, BasicCell.L, BasicCell.V);
 
     @Override
     public void valid(NumberCell input) throws Exception {

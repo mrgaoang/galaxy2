@@ -1,10 +1,11 @@
-package galaxy;
+package number;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-import ValidImpl.AbstractValid;
-import ValidImpl.RepeatedValid;
-import ValidImpl.SubtractedValid;
+import validImpl.AbstractValid;
+import validImpl.RepeatedValid;
+import validImpl.SubtractedValid;
 
 /**
  * 银河系数字对象
@@ -42,9 +43,13 @@ public class NumberCell {
         this.cellString = cellString;
         this.length = cellString.length();
         char[] chars = cellString.toCharArray();
-        cells = new BasicCell[chars.length];
+        this.cells = new BasicCell[chars.length];
         for (int i = 0; i < chars.length; i++) {
-            cells[i] = BasicCell.getWithChar(chars[i]);
+            BasicCell basicCell = BasicCell.getWithChar(chars[i]);
+            if (Objects.isNull(basicCell)) {
+                throw new Exception(String.format(" '%s' is a invalid char ", chars[i]));
+            }
+            cells[i] = basicCell;
         }
         AbstractValid repeatedValid = new RepeatedValid();
         AbstractValid subtractedValid = new SubtractedValid();
@@ -54,55 +59,51 @@ public class NumberCell {
     }
 
     /**
-     * TODO 阿拉伯数字转银河系字符 非必须，抽空做
+     * TODO 阿拉伯数字转银河系字符
      *
      * @param number
      * @throws Exception
      */
-    public NumberCell(int number) throws Exception {
+    /*public NumberCell(int number) throws Exception {
         if (number >= maxNumber) {
-            throw new Exception(number +" greater than "+ maxNumber);
+            throw new Exception(number + " greater than " + maxNumber);
         }
         if (number <= 0) {
-            throw new Exception(number +" less than 0 ");
+            throw new Exception(number + " less than 0 ");
         }
         this.number = new Integer(number).doubleValue();
         String numberStr = String.valueOf(number);
         numberStr = String.format("%04d", number);
 
-    }
-
+    }*/
     public static void main(String[] args) {
-        System.out.println(String.format("%04d", 1));
+        NumberCell A = null;
+        try {
+            A = new NumberCell("MMMMCCCXXXIII");
+            System.out.println(A.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
      * 计算积分
      */
     private void calculationCredits() {
-        if (this.length == 1) {
-            this.number = cells[0].getValue();
+        if (this.length == 0) {
+            this.number = 0;
+            return;
         }
-
-        BasicCell before = cells[0];
         double sum = 0;
-        for (int i = 1; i < cells.length; i++) {
-            // 前面的数小于后面的数，求差之后累加
-            if (before.getValue() < cells[i].getValue()) {
-                sum = sum + (cells[i].getValue() - before.getValue());
-                // 取下一个数为before 从下下个数开始遍历
-                i++;
-                if (cells.length <= i) {
-                    break;
-                }
-                before = cells[i];
+        for (int i = 0; i < cells.length; i++) {
+            // 顺序累加
+            if (i == 0 || cells[i].getValue() <= cells[i - 1].getValue()) {
+                sum += cells[i].getValue();
             }
-            // 累计上一个数
-            else if (i != cells.length - 1) {
-                sum = sum + before.getValue();
-            } else {
-                // 累计最后一个数
-                sum = sum + cells[i].getValue() + cells[i].getValue();
+            // 当后的数大于前面的数时，用2倍的前面的数减去后面的数
+            else {
+                sum += cells[i].getValue() - 2 * cells[i - 1].getValue();
             }
         }
         this.number = sum;

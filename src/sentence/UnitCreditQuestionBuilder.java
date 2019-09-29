@@ -1,17 +1,15 @@
 package sentence;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 import constant.SentenceType;
-import galaxy.AbstractQuestion;
-import galaxy.BasicCell;
-import galaxy.NumberCell;
+import number.BasicCell;
+import number.NumberCell;
 import util.Utils;
 
 /**
- * 货币积分价值问题构造器
+ * 货物积分价值问题构造器
+ * 继承自AbstractQuestion，实现了判断语句、回答问题等方法
  */
 public class UnitCreditQuestionBuilder extends AbstractQuestion {
     /**
@@ -19,17 +17,12 @@ public class UnitCreditQuestionBuilder extends AbstractQuestion {
      */
     private static String questionEndOfChar = "?";
     /**
-     * 货币积分价值提问
+     * 货物积分价值提问
      */
     private static String question4CoreWords = "how many Credits is";
 
     /**
-     * 回答模板
-     */
-    private static String answerSentence = "%s %s is %s Credits";
-
-    /**
-     * 货币积分价值对象
+     * 货物积分价值对象
      */
     private MoneyUnitBuilder moneyUnitBuilder;
 
@@ -38,58 +31,48 @@ public class UnitCreditQuestionBuilder extends AbstractQuestion {
     }
 
     /**
-     * 是否为货币等于多少积分这种疑问句
-     * how many Credits is glob prok Silver ?
+     * 是否为货物等于多少积分这种疑问句
+     * glob prok Silver
      *
      * @param sentence
      * @return
      */
     @Override
-    public SentenceModel isMyTypeSentence(String sentence) {
-        SentenceModel sentenceModel = new SentenceModel();
-
-        // 基本数值集合
-        List<BasicCell> basicCells = Arrays.asList(BasicCell.values());
-        if (!sentence.contains(question4CoreWords)) {
-            return null;
-        }
-        // 必须以问号结尾
-        if (!questionEndOfChar.equals(sentence.substring(sentence.length() - 1, sentence.length()))) {
-            return null;
-        }
-
-        // 替换特征语句
-        String[] lessWords = sentence.replace(question4CoreWords, "").replace(questionEndOfChar, "").trim().split(" ");
+    public SentenceModel getMyModel(String sentence) {
+        // 分割
+        String[] lessWords = sentence.split(" ");
         if (lessWords.length < 2) {
             return null;
         }
-        // 最后一个关键词必须为货币单位，否则无法识别
+        // 最后一个关键词必须为货物单位，否则无法识别
         if (!moneyUnitBuilder.containsKey(lessWords[lessWords.length - 1])) {
             return null;
         }
 
         StringBuilder nikeNameString = new StringBuilder(36);
-        StringBuilder cellString = new StringBuilder(36);
+        StringBuilder cellString = new StringBuilder(12);
 
+        // 遍历关键词，到倒数第二个
         for (int i = 0; i < lessWords.length - 1; i++) {
-
             // 其余关键词为昵称
             BasicCell basicCell = moneyUnitBuilder.getNikeNameBuilder().getCellByNikeName(lessWords[i]);
-            if (Objects.isNull(basicCell) || !basicCells.contains(basicCell)) {
+            if (Objects.isNull(basicCell)) {
                 return null;
             }
-            nikeNameString.append(lessWords[i]).append(" ");
-            cellString.append(basicCell.getName());
 
+            // 拼接昵称组成的数字
+            nikeNameString.append(lessWords[i]).append(" ");
+            // 拼接罗马符号数字串
+            cellString.append(basicCell.getName());
         }
+        SentenceModel sentenceModel = new SentenceModel();
         sentenceModel.setCellString(cellString.toString());
         sentenceModel.setNikeNameString(nikeNameString.toString().trim());
-        // 设置货币单位
+        // 设置货物单位
         sentenceModel.setMoneyUnit(lessWords[lessWords.length - 1]);
         // 设置文本类型
         sentenceModel.setSentenceType(SentenceType.QUESTION_UNIT_CREDIT);
         return sentenceModel;
-
 
     }
 
@@ -110,14 +93,41 @@ public class UnitCreditQuestionBuilder extends AbstractQuestion {
         try {
             numberCell = new NumberCell(sentenceModel.getCellString());
         } catch (Exception e) {
+            // 返回字符组合非法的提示
             return e.getMessage();
         }
 
-        // 一货币等于多少积分
+        // 一货物等于多少积分
         double unitCredit = moneyUnitBuilder.get(sentenceModel.getMoneyUnit());
 
+        // 答案 信用分
         double credits = numberCell.getNumber() * unitCredit;
 
+        /**
+         * 回答模板
+         */
+        String answerSentence = "%s %s is %s Credits";
         return String.format(answerSentence, sentenceModel.getNikeNameString(), sentenceModel.getMoneyUnit(), Utils.doubleTransform(credits));
     }
+
+    /**
+     * 问题特征词
+     *
+     * @return
+     */
+    @Override
+    public String getQuestionKeyWord() {
+        return question4CoreWords;
+    }
+
+    /**
+     * 问题结尾词
+     *
+     * @return
+     */
+    @Override
+    public String getQuestionEndOfChar() {
+        return  questionEndOfChar;
+    }
+
 }

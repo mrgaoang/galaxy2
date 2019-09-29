@@ -1,16 +1,17 @@
-package sentence;
+package process;
 
 import java.util.Objects;
 
 import constant.SentenceType;
+import sentence.*;
 
 /**
- * 数据选择器
+ * 文本选择器
  */
 public class SentenceSelect {
 
     /**
-     * 货币积分价值对象
+     * 货物积分价值对象
      */
     private MoneyUnitBuilder moneyUnitBuilder;
 
@@ -20,14 +21,14 @@ public class SentenceSelect {
     private SimpleCreditQuestionBuilder simpleCreditQuestionBuilder;
 
     /**
-     * 货币积分价值问题构造器
+     * 货物积分价值问题构造器
      */
     private UnitCreditQuestionBuilder unitCreditQuestionBuilder;
 
     /**
      * 昵称构造器
      */
-    private NikeNameBuilder nikeNameBuilder ;
+    private NikeNameBuilder nikeNameBuilder;
 
     public SimpleCreditQuestionBuilder getSimpleCreditQuestionBuilder() {
         return simpleCreditQuestionBuilder;
@@ -53,12 +54,12 @@ public class SentenceSelect {
     }
 
     /**
-     * 重置昵称和货币
+     * 重置昵称和货物
      */
     public void reSet() {
         nikeNameBuilder.clear();
         moneyUnitBuilder.clear();
-        System.out.println("init success !");
+        System.out.println("reSet success !");
 
     }
 
@@ -70,7 +71,7 @@ public class SentenceSelect {
      */
     public SentenceModel select(String sentence) {
         SentenceModel sentenceModel = new SentenceModel();
-        if (sentence.isEmpty()) {
+        if (sentence == null || sentence.isEmpty()) {
             sentenceModel.setSentenceType(SentenceType.ERROR);
             return sentenceModel;
         }
@@ -91,11 +92,11 @@ public class SentenceSelect {
         if (Objects.nonNull(sentenceModel = simpleCreditQuestionBuilder.isMyTypeSentence(sentence))) {
             return sentenceModel;
         }
-        // 带货币单位的积分提问
+        // 带货物单位的积分提问
         if (Objects.nonNull(sentenceModel = unitCreditQuestionBuilder.isMyTypeSentence(sentence))) {
             return sentenceModel;
         }
-        // 定义货币的积分价值 特征：以N个昵称开头+ 货币单位 + 积分数量 以Credits 结尾
+        // 定义货物的积分价值 特征：以N个昵称开头+ 货物单位 + 积分数量 以Credits 结尾
         if (Objects.nonNull(sentenceModel = moneyUnitBuilder.isMoneyUnitSentence(sentence))) {
             return sentenceModel;
         }

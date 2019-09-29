@@ -1,7 +1,7 @@
 package sentence;
 
 /**
- * 文本对象
+ * 文本对象模型
  */
 public class SentenceModel {
     @Override
@@ -36,7 +36,7 @@ public class SentenceModel {
     private double credits;
 
     /**
-     * 货币单位
+     * 货物单位
      */
     private String moneyUnit;
 

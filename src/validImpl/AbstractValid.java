@@ -1,6 +1,6 @@
-package ValidImpl;
+package validImpl;
 
-import galaxy.NumberCell;
+import number.NumberCell;
 
 /**
  * @author ： gaoang

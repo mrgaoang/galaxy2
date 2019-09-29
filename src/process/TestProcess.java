@@ -1,14 +1,10 @@
-package com.gaoang;
+package process;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author ： gaoang
- * @mudule: 应用模块名称
- * @Copyright: Copyright (C) 2019 BlueSea, Inc. All rights reserved.
- * @Company : 北京巅峰同道科技有限公司
- * @since ：2019/9/27 16:33
+ * 测试程序
  */
 public class TestProcess {
     /**
@@ -81,6 +77,7 @@ public class TestProcess {
         sentenceList.add("pish pish Iron is 3910 Credits");
         sentenceList.add("how much is pish tegj glob glob ?");
         sentenceList.add("how many Credits is glob prok Silver ?");
+        sentenceList.add("how many Credits is tegj glob prok  Silver ?");
         sentenceList.add("how many Credits is glob prok Gold ?");
         sentenceList.add("how many Credits is glob prok Iron ?");
         sentenceList.add("how much wood could a woodchuck chuck if a woodchuck could chuck wood ?");

@@ -4,20 +4,31 @@ import java.util.HashMap;
 
 import constant.Credits;
 import constant.SentenceType;
-import galaxy.NumberCell;
+import number.NumberCell;
 
 /**
- * 货币种类价值构造
+ * 货物种类价值构造
+ * 该类继承自hashMap，自身存有货物的单价信息
  */
 public class MoneyUnitBuilder extends HashMap<String, Double> {
+    /**
+     * 关键词
+     */
     public static String accessChar = "is";
 
+    /**
+     * 昵称构造器
+     */
     private NikeNameBuilder nikeNameBuilder;
 
     public NikeNameBuilder getNikeNameBuilder() {
         return nikeNameBuilder;
     }
 
+    /**
+     * 构造函数
+     * @param nikeNameBuilder　昵称构造器
+     */
     public MoneyUnitBuilder(NikeNameBuilder nikeNameBuilder) {
         super();
         this.nikeNameBuilder = nikeNameBuilder;
@@ -28,7 +39,7 @@ public class MoneyUnitBuilder extends HashMap<String, Double> {
      * glob prok Gold is 57800 Credits
      * pish pish Iron is 3910 Credits
      * <p>
-     * 根据文本对象设置货币定义
+     * 根据文本对象设置货物定义
      *
      * @param sentenceModel
      */
@@ -44,7 +55,7 @@ public class MoneyUnitBuilder extends HashMap<String, Double> {
     }
 
     /**
-     * 是否为货币定义语义
+     * 是否为货物定义语义
      *
      * @param sentence
      * @return
@@ -66,20 +77,20 @@ public class MoneyUnitBuilder extends HashMap<String, Double> {
                 nikeNameString.append(words[i]).append(" ");
                 cellString.append(nikeNameBuilder.getCellByNikeName(words[i]).getName());
             }
-            // 第一个昵称的字符为货币名称
+            // 第一个昵称的字符为货物名称
             else {
                 sentenceModel.setMoneyUnit(words[i]);
                 charUnitIndex = i;
                 break;
             }
         }
-        // 货币种类后接is
+        // 货物种类后接is
         if (!words[charUnitIndex + 1].equals(accessChar)) {
             return null;
         }
         // is 后接积分数量
         try {
-            Double credits = Double.parseDouble(words[charUnitIndex + 2]);
+            double credits = Double.parseDouble(words[charUnitIndex + 2]);
             // 设置积分数量
             sentenceModel.setCredits(credits);
         } catch (NumberFormatException e) {

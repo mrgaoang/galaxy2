@@ -1,7 +1,11 @@
-package galaxy;
+package number;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * 符号价值
+ * 罗马符号价值枚举
  */
 public enum BasicCell {
 
@@ -12,6 +16,15 @@ public enum BasicCell {
     C("C", 100d),
     D("D", 500d),
     M("M", 1000d);
+
+    /**
+     * 罗马符号set
+     */
+    public static Set<BasicCell> cellSet;
+
+    static {
+        cellSet = new HashSet<>(Arrays.asList(BasicCell.values()));
+    }
 
     private String name;
     private double value;
@@ -41,7 +54,7 @@ public enum BasicCell {
                 return basicCell;
             }
         }
-        return I;
+        return null;
     }
 
     /**

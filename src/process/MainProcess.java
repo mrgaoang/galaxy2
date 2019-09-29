@@ -1,13 +1,17 @@
-package com.gaoang;
+package process;
 
 import java.util.Scanner;
 
+import constant.CommandWord;
 import constant.SentenceType;
-import sentence.MoneyUnitBuilder;
-import sentence.NikeNameBuilder;
 import sentence.SentenceModel;
-import sentence.SentenceSelect;
 
+/**
+ * 主程序入口
+ * 接收用户输入
+ * 并调用SentenceSelect解析用户输入，并交给对应的执行对象，响应用户的输入
+ * 详细介绍请查看readme
+ */
 public class MainProcess {
 
     /**
@@ -33,36 +37,35 @@ public class MainProcess {
 
         while (sc.hasNextLine()) {
             String sentence = sc.nextLine();
-            if ("exit".equals(sentence)) {
-                sc.close();
-                System.out.println("exit success !");
-                break;
+            switch (sentence) {
+                // 执行退出
+                case CommandWord.EXIT:
+                    sc.close();
+                    System.out.println("exit success !");
+                    return;
+                // 执行帮助
+                case CommandWord.HELP:
+                    help();
+                    break;
+                // 执行测试数据
+                case CommandWord.TEST:
+                    TestProcess.test();
+                    break;
+                // 重置昵称和货物单位
+                case CommandWord.RESET:
+                    sentenceSelect.reSet();
+                    break;
+                // 解析输入的正常文本
+                default:
+                    inputOneLine(sentence);
             }
-            if ("help".equals(sentence)) {
-                help();
-                continue;
-            }
-            if ("test".equals(sentence)) {
-                TestProcess.test();
-                continue;
-            }
-            if ("reSet".equals(sentence)) {
-                sentenceSelect.reSet();
-                continue;
-            }
-            inputOneLine(sentence);
         }
-
-
-        // 打印货币等价的积分
-//        for (String s : moneyUnitBuilder.keySet()) {
-//            System.out.println(s + " = " + moneyUnitBuilder.get(s) + " credits");
-//        }
-
     }
 
     /**
      * 接受一行输入
+     * 调用SentenceSelect 解析文本类型并提取SentenceModel
+     * 再调用响应的执行对象
      *
      * @param sentence
      */
@@ -74,9 +77,9 @@ public class MainProcess {
         switch (type) {
             // 昵称构造
             case SentenceType.NIKE_NAME:
-                sentenceSelect.getNikeNameBuilder().makeFromSentence(model);
+                sentenceSelect.getNikeNameBuilder().setNikeNameWithSentence(model);
                 break;
-            // 货币价值构造
+            // 货物价值构造
             case SentenceType.INIT_CREDIT:
                 String errorMsg = sentenceSelect.getMoneyUnitBuilder().setUnitWithSentence(model);
                 if (errorMsg != null) {
@@ -87,7 +90,7 @@ public class MainProcess {
             case SentenceType.QUESTION_CREDIT:
                 System.out.println(sentenceSelect.getSimpleCreditQuestionBuilder().answer(model));
                 break;
-            // 货币积分价值问题
+            // 货物积分价值问题
             case SentenceType.QUESTION_UNIT_CREDIT:
                 System.out.println(sentenceSelect.getUnitCreditQuestionBuilder().answer(model));
                 break;
@@ -96,6 +99,9 @@ public class MainProcess {
         }
     }
 
+    /**
+     * 输出帮助
+     */
     public static void help() {
         System.out.println("glob is I\n" +
                 "prok is V\n" +
@@ -108,8 +114,6 @@ public class MainProcess {
                 "how many Credits is glob prok Silver ?\n" +
                 "how many Credits is glob prok Gold ?\n" +
                 "how many Credits is glob prok Iron ?\n");
-
     }
-
 
 }
